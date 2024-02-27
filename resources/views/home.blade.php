@@ -9,6 +9,9 @@
                 <div class="card-body">
                     {{\Illuminate\Support\Facades\Auth::user()->name}}
                 </div>
+                <div class="card-body">
+                    Время сервера {{\Illuminate\Support\Carbon::now()->format('d-m-Y H:i:s')}}
+                </div>
             </div>
         </div>
     </div>

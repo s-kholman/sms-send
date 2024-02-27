@@ -9,11 +9,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <form action="{{route('clients.upload')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input class="form-control" type="file" name="clients">
-                    <input class="btn btn-info" type="submit" name="upload" value="Загрузить список клиентов">
+                    <div class="mb-3">
+                        <input class="form-control" type="file" name="clients">
+                    </div>
+                    <div class="mb-3">
+                        <input class="btn btn-info" type="submit" name="upload" value="Загрузить список клиентов">
+                    </div>
                 </form>
             </div>
         </div>

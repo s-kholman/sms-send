@@ -2,13 +2,19 @@
 @section('title', 'Список клиентов')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col">
+        <div class="row">
+            <div class="col-4">
                 <form action="{{route('report.find')}}" method="post">
                     @csrf
-                    <label for="date">Выберите дату</label>
-                    <input class="form-control" type="date" name="date" id="date" value="{{date('Y-m-d')}}">
-                    <input class="btn btn-success" type="submit" value="Найти">
+                    <div class="mb-3">
+                        <label class="form-label" for="date">Выберите дату</label>
+                        <input class="form-control" type="date" name="date" id="date" value="{{date('Y-m-d')}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <input class="btn btn-success" type="submit" value="Найти">
+                    </div>
+
                 </form>
             </div>
        </div>
