@@ -23,7 +23,7 @@
                 @if($post == 1)
                     @forelse($result as $key => $value)
                     <div class="col">
-                        Рассылка: <b>{{\App\Models\Mailing::query()->find($key)->value('mailing_name')}}</b> <br />
+                        Рассылка: <b>{{\App\Models\Mailing::query()->where('id', $key)->value('mailing_name')}}</b> <br />
                         Отправленно SMS: {{count( !empty($value['failed']) ? $value['failed'] : [] ) + count( !empty($value['send']) ? $value['send'] : [] ) }} <br />
                         Доставленно SMS: {{count( !empty($value['send']) ? $value['send'] : [] ) }}<br />
                         <hr>
