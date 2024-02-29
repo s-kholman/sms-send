@@ -36,7 +36,6 @@ public function __invoke(GetSend $getSend, StoreSmsStatus $storeSmsStatus)
 
         }
     }
-    Log::info('invoke');
 }
 
 }

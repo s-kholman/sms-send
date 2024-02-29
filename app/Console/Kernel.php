@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
 
-        $schedule->call(new ScheduleSms())->everyMinute()->appendOutputTo(storage_path('logs/schedule.log'));
-        Log::info('ScheduleSms');
+        $schedule->call(new ScheduleSms())->everyMinute();
+
     }
 
     /**
