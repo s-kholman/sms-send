@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Api\SMS\SendSms;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 
 class ScheduleSms
@@ -35,6 +36,7 @@ public function __invoke(GetSend $getSend, StoreSmsStatus $storeSmsStatus)
 
         }
     }
+    Log::info('invoke');
 }
 
 }

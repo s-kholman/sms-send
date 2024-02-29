@@ -3,9 +3,9 @@
 namespace App\Console;
 
 use App\Actions\ScheduleSms;
-use App\Models\Mailing;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
 
-        $schedule->call(new ScheduleSms())->everyMinute();
-
+        $schedule->call(new ScheduleSms())->everyMinute()->appendOutputTo(storage_path('logs/schedule.log'));
+        Log::info('ScheduleSms');
     }
 
     /**

@@ -15,7 +15,6 @@ class GetSend
         if($scheduled->isNotEmpty()){
             return ['client' => $this->clients($scheduled[0]->mailing_to_day), 'scheduled' => $scheduled];
         } else{
-
             return false;
         }
     }
