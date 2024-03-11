@@ -13,5 +13,6 @@ class SmsStatusSend extends Model
         'sms_send_id',
         'phone_send',
         'date',
+        'user_id',
     ];
 }

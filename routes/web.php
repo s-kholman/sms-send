@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientUploadController;
 use App\Http\Controllers\MailingController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SmscIntegrationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,6 @@ Route::post('send', [MailingController::class, 'send'])->middleware('auth')->nam
 
 Route::get('report', [ReportController::class, 'index'])->middleware('auth');
 Route::post('find', [ReportController::class, 'find'])->middleware('auth')->name('report.find');
+
+Route::get('smsc', [SmscIntegrationController::class, 'index'])->middleware('auth')->name('smsc.index');
+Route::post('smsc/store', [SmscIntegrationController::class, 'store'])->name('smsc.store')->middleware('auth');

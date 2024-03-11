@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('sms_send_id');
             $table->string('phone_send');
             $table->date('date');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

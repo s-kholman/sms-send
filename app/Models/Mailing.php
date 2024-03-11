@@ -14,5 +14,6 @@ class Mailing extends Model
         'mailing_send_time',
         'mailing_frequency',
         'mailing_to_day',
+        'user_id',
     ];
 }

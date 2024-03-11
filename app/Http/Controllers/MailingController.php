@@ -8,6 +8,7 @@ use App\Api\SMS\SendSms;
 use App\Http\Requests\MailingRequest;
 use App\Models\Mailing;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MailingController extends Controller
 {
@@ -52,6 +53,7 @@ class MailingController extends Controller
                     'mailing_id' => $getSend()['scheduled'][0]->id,
                     'phone_send' => $phones,
                     'date' => Carbon::now(),
+                    'user_id' => Auth::user()->id,
                 ]);
 
             }

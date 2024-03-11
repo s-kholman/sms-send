@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('clientFullName',255);
             $table->string('phone', 20);
             $table->date('birth');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

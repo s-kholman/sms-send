@@ -4,6 +4,7 @@ namespace App\Api\SMS;
 
 class SmsGetStatus extends SmscSendCmd
 {
+
     public function get_status($id, $phone, $all = 1)
     {
         $m = $this->_smsc_send_cmd("status", "phone=".urlencode($phone)."&id=".urlencode($id)."&all=".(int)$all);

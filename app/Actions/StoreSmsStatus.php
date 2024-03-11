@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\SmsStatusSend;
+use Illuminate\Support\Facades\Auth;
 
 class StoreSmsStatus
 {
@@ -14,6 +15,7 @@ class StoreSmsStatus
                 'sms_send_id' => $array['sms_send_id'],
                 'phone_send' => $array['phone_send'],
                 'date' => $array['date'],
+                'user_id' => Auth::user()->id,
             ]);
     }
 

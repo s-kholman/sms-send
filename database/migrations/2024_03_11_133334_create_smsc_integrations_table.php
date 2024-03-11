@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mailings', function (Blueprint $table) {
+        Schema::create('smsc_integrations', function (Blueprint $table) {
             $table->id();
-            $table->string('mailing_name',255);
-            $table->string('mailing_text',255);
-            $table->time('mailing_send_time');
-            $table->integer('mailing_frequency');
-            $table->integer('mailing_to_day');
+            $table->string('login');
+            $table->string('password');
             $table->foreignId('user_id');
             $table->timestamps();
         });
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mailings');
+        Schema::dropIfExists('smsc_integrations');
     }
 };

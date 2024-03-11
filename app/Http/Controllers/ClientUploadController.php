@@ -16,13 +16,14 @@ class ClientUploadController extends Controller
             $file = fopen($request->file('clients'), 'r');
 
             for($i = 0; $data = fgetcsv($file, 1_000, ';'); $i++){
-
-                if (count($data) == 3){
+//dd($data);
+                if (count($data) >= 3){
                     $validate = $validateClient(
                         [
                             'phone' => $data[0],
                             'birth' => $data[2],
-                            'clientFullName' => iconv("CP1251", "UTF-8", $data[1])
+                            //'clientFullName' => iconv("OEM866", "UTF-8", $data[1])
+                            'clientFullName' => $data[1]
                         ]);
                     if($validate <> false){
                         $storeClient($validate);

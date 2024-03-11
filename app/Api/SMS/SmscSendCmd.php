@@ -2,19 +2,44 @@
 
 namespace App\Api\SMS;
 
+use App\Models\SmscIntegration;
+use Illuminate\Support\Facades\Auth;
+
+
 class SmscSendCmd
 
 {
-private $SMSC_LOGIN = "Sobes";			// логин клиента
-private $SMSC_PASSWORD = "37382569ea9134da8961b3cc189bfdca85a5054c";	// пароль
+
+private $SMSC_LOGIN = "";			// логин клиента
+private $SMSC_PASSWORD = "";	// пароль
 private $SMSC_POST = 0;					// использовать метод POST
 private $SMSC_HTTPS = 0;				// использовать HTTPS протокол
 private $SMSC_CHARSET = "utf-8";	// кодировка сообщения: utf-8, koi8-r или windows-1251 (по умолчанию)
 protected $SMSC_DEBUG = 0;				// флаг отладки
 ///private $SMTP_FROM = "api@smsc.ru";     // e-mail адрес отправителя
 
+
+public function setLogin($login)
+{
+    $this->SMSC_LOGIN = $login;
+}
+
+public function setPassword($password)
+{
+    $this->SMSC_PASSWORD = $password;
+}
+
     public function _smsc_send_cmd($cmd, $arg = "", $files = array())
     {
+        $check = SmscIntegration::query()->where('user_id', Auth::user()->id)->first();
+
+        if(!empty($check)){
+
+            $this->SMSC_LOGIN = $check->login;
+            $this->SMSC_PASSWORD = $check->password;
+
+        }
+
         $url = $_url = ($this->SMSC_HTTPS ? "https" : "http")."://smsc.ru/sys/$cmd.php?login=".urlencode($this->SMSC_LOGIN)."&psw=".urlencode($this->SMSC_PASSWORD)."&fmt=1&charset=".$this->SMSC_CHARSET."&".$arg;
 
         $i = 0;
