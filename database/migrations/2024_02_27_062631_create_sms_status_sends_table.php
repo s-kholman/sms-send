@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('sms_status_sends', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mailing_id');
-            $table->integer('sms_send_id');
+            $table->uuid('sms_send_id');
             $table->string('phone_send');
             $table->date('date');
             $table->foreignId('user_id');
+            $table->string('sms_status_code')->nullable()->default(null);
             $table->timestamps();
         });
     }

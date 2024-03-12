@@ -8,12 +8,23 @@ use Illuminate\Support\Carbon;
 
 class GetSend
 {
-    public function __invoke()
+    private $user_id;
+
+    public function get()
     {
 
        $scheduled = $this->scheduled();
+
         if($scheduled->isNotEmpty()){
-            return ['client' => $this->clients($scheduled[0]->mailing_to_day), 'scheduled' => $scheduled];
+
+            foreach ($scheduled as $value){
+
+                $this->user_id = $scheduled[0]->user_id;
+
+                $return [] = ['client' => $this->clients($value->mailing_to_day), 'scheduled' => $value];
+
+            }
+            return $return;
         } else{
             return false;
         }
@@ -21,19 +32,22 @@ class GetSend
 
     private function scheduled()
     {
+        /**
+         * Получаем все задания на рассылку, где сходится время
+         */
         return collect(Mailing::query()
             ->where('mailing_send_time', now()->format('H:i'.':00'))
-            ->limit(1)
             ->get());
     }
 
-    private function clients($mailing_frequency = 0)
+    private function clients($mailing_to_day = 0)
     {
-        $birthDay = Carbon::now()->addDays($mailing_frequency);
+        $birthDay = Carbon::now()->addDays($mailing_to_day);
 
         return Client::query()
             ->whereDay('birth',$birthDay->isoFormat('DD'))
             ->whereMonth('birth', $birthDay->isoFormat('MM'))
+            ->where('user_id', $this->user_id)
             ->get();
     }
 }

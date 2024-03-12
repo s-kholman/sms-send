@@ -6,7 +6,10 @@ class ValidateClient
 {
     public function __invoke(array $data): bool|array
     {
-        if(!preg_match('/^\+7\d{10}/',$data['phone'])){
+        //dd($data);
+        $data['phone'] = ltrim($data['phone'], '+');
+
+        if(!preg_match('/^7\d{10}/',$data['phone'])){
             return false;
         }
 
@@ -20,12 +23,15 @@ class ValidateClient
                 return false;
             }
         } else {
+
             return false;
+
         }
 
 
 
         if(!preg_match('/^[а-яА-Я\s]+[а-яА-Я]+[а-яА-Я]*$/u',$data['clientFullName'])){
+
             return false;
         }
 

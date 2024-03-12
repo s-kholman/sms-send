@@ -5,37 +5,55 @@ namespace App\Actions;
 use App\Api\SMS\SendSms;
 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 
 class ScheduleSms
 {
     private SendSms $sendSms;
+    private GetSend $getSend;
+    private StoreSmsStatus $storeSmsStatus;
+    private $sms_phone = '';
 
     public function __construct()
     {
-        $this->sendSms = new SendSms();
+        $this->sendSms = new SendSms('');
+        $this->getSend = new GetSend();
+        $this->storeSmsStatus = new StoreSmsStatus();
     }
 
-public function __invoke(GetSend $getSend, StoreSmsStatus $storeSmsStatus)
-{
+    public function __invoke()
+    {
+        $get_send = $this->getSend->get();
 
-    if($getSend() <> false){
+        if ($get_send <> false) {
 
-        foreach ($getSend()['client'] as $value){
+            foreach ($get_send as $value) {
+                $this->sms_phone = '';
+                $sms_send_id = Str::uuid();
+                foreach ($value['client'] as $client) {
 
-            $return_send = $this->sendSms->send_sms($value->phone, $getSend()['scheduled'][0]->mailing_text);
+                    //Создание строки под отправку
+                    $this->sms_phone .= $client->phone . ';';
 
-            $storeSmsStatus([
-                'sms_send_id' => $return_send[0],
-                'mailing_id' => $getSend()['scheduled'][0]->id,
-                'phone_send' => $value->phone,
-                'date' => Carbon::now(),
-            ]);
+                }
 
+                $this->sendSms->setUserID($value['scheduled']->user_id);
 
+                $this->sendSms->send_sms($this->sms_phone, $value['scheduled']->mailing_text,0,0,$sms_send_id);
+
+                if ($this->sms_phone <> ''){
+                    $this->storeSmsStatus->store([
+                        'sms_send_id' => $sms_send_id,
+                        'mailing_id' => $value['scheduled']->id,
+                        'phone_send' => rtrim($this->sms_phone, ';'),
+                        'date' => Carbon::now(),
+                        'user_id' => $value['scheduled']->user_id,
+
+                    ]);
+                }
+            }
         }
     }
-}
 
 }

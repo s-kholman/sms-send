@@ -9,6 +9,7 @@ use App\Http\Requests\MailingRequest;
 use App\Models\Mailing;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class MailingController extends Controller
 {
@@ -16,7 +17,9 @@ class MailingController extends Controller
 
     public function __construct()
     {
+
         $this->sendSms = new SendSms();
+
     }
 
     public function index()
@@ -33,6 +36,7 @@ class MailingController extends Controller
                 'mailing_send_time' => $request->mailing_send_time,
                 'mailing_frequency' => $request->mailing_frequency,
                 'mailing_to_day' => $request->mailing_to_day,
+                'user_id' => Auth::user()->id,
             ]);
 
         return redirect()->route('mailing.index');
@@ -46,10 +50,12 @@ class MailingController extends Controller
 
             foreach ($getSend()['client'] as $value){
 
-                $return_send = $this->sendSms->send_sms($value->phones, $getSend()['scheduled'][0]->mailing_text);
+                $sms_send_id = Str::uuid();
+
+                $return_send = $this->sendSms->send_sms($value->phones, $getSend()['scheduled'][0]->mailing_text, 0, 0, $sms_send_id);
 
                 $storeSmsStatus([
-                    'sms_send_id' => $return_send[0],
+                    'sms_send_id' => $sms_send_id,
                     'mailing_id' => $getSend()['scheduled'][0]->id,
                     'phone_send' => $phones,
                     'date' => Carbon::now(),

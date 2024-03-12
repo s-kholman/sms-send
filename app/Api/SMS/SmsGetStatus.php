@@ -2,6 +2,8 @@
 
 namespace App\Api\SMS;
 
+use Illuminate\Support\Facades\Auth;
+
 class SmsGetStatus extends SmscSendCmd
 {
 

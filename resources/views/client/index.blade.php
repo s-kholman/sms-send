@@ -20,6 +20,12 @@
                     </div>
                 </form>
             </div>
+            <form action="{{route('test')}}" method="post">
+                @csrf
+                <div class="mb-3">
+                    <input class="btn btn-info" type="submit" name="test" value="Tets send sms">
+                </div>
+            </form>
         </div>
     </div>
 @endsection

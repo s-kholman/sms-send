@@ -22,9 +22,12 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {    return view('welcome');});
 
 Auth::routes();
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', function (){
+ return view('home');
+})->name('home')->middleware('auth');
 
 Route::get('clients', [ClientController::class, 'index'])->middleware('auth')->name('clients.index');
+Route::post('test', [ClientController::class, 'test'])->middleware('auth')->name('test');
 Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');
 Route::get('upload',[ClientController::class, 'index']);
 
