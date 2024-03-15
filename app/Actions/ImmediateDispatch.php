@@ -22,7 +22,7 @@ class ImmediateDispatch
 
     public function __invoke($mailing)
     {
-        $get_send = Client::query()->where('user_id', $mailing->user_id)->limit(5)->get();
+        $get_send = Client::query()->where('user_id', $mailing->user_id)->get();
 
         if ($get_send->isNotEmpty()) {
             $this->sms_phone = '';
