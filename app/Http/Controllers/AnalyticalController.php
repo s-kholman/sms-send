@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GetSmsStatus;
 use App\Models\SmsStatusSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AnalyticalController extends Controller
 {
     public function index()
     {
+
+
+        RateLimiter::attempt('get_status_sms', 1, function () {
+            dispatch(new GetSmsStatus(now(), Auth::user()->id));
+            return null;
+        }, 25);
+
         $maililngs = SmsStatusSend::query()->where('user_id', Auth::user()->id)->get();
 
         if ($maililngs->isNotEmpty()){
