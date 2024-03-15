@@ -43,13 +43,13 @@
                         <div class="col-3">
                             <input class="form-control" type="time" name="mailing_send_birth">
                         </div>
-                        <div class="col-4">
-                            <select class="form-control" name="mailing_to_day">
-                                <option value="7">За семь дней до дня рождения</option>
-                                <option value="5">За пять дней до дня рождения</option>
-                                <option value="2">За два дня до дня рождения</option>
-                                <option value="0">В день рождения</option>
-                            </select>
+                        <div class="col-1">
+                            <input class="form-control @error('mailing_to_day') is-invalid @enderror" name="mailing_to_day" value="{{old('mailing_to_day')}}">
+                            @error('mailing_to_day')
+                            <span class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row g-6">

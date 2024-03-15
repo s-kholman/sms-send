@@ -30,7 +30,7 @@ class MailingRequest extends FormRequest
             'mailing_deferred' => 'nullable|date',//Отправка в определенную дату
             'mailing_frequency_date' => 'nullable|date',//Дата переодичных рассылок
             'mailing_frequency_type' => 'nullable|numeric',//Повтор переодичных рассылок
-            'mailing_to_day' => 'required|numeric',
+            'mailing_to_day' => 'required|numeric|min:0|max:364',
         ];
     }
 
@@ -39,7 +39,10 @@ class MailingRequest extends FormRequest
         return
             [
                 'required' => 'Поле обязательно для заполнение',
-                'max' => 'Значение не должно быть длинне :max символов'
+                'max' => 'Значение не должно быть длинне :max символов',
+                'min' => 'Значение не может быть отрицательным',
+                'mailing_to_day:max' => 'Значение не может привышать :max',
+                'numeric' => 'Только число',
             ];
     }
 }
