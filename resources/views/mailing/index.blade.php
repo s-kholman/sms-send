@@ -61,6 +61,30 @@
                     </div>
                     <input class="btn btn-success " type="submit" value="Сохранить">
                 </form>
+                <div class="row m-3">
+                    <div class="mb-3">
+
+                        @forelse($mailing as $value)
+                            <div class="row ">
+                                <div class="col">
+
+                                    @if($value->mailing_type == 1)
+                                        Тип рассылки - "День рождение", за {{$value->mailing_to_day}} дней,
+                                    @elseif($value->mailing_type == 2)
+                                        Тип рассылки - "Немедленно", отправленно {{\Illuminate\Support\Carbon::parse($value->mailing_immediate_dispatch)->format('d-m-Y H:i')}},
+                                    @endif
+
+                                    Название - <b>{{$value->mailing_name}}</b>, текст смс "<i>{{$value->mailing_text}}</i>"
+
+                                </div>
+
+                            </div>
+                        @empty
+                        @endforelse
+
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

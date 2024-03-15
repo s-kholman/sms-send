@@ -29,7 +29,9 @@ class MailingController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('mailing.index', ['count' => $count]);
+        $mailing = Mailing::query()->where('user_id', Auth::user()->id)->get();
+
+        return view('mailing.index', ['count' => $count, 'mailing' => $mailing]);
     }
 
     public function store(MailingRequest $request, ImmediateDispatch $immediateDispatch){
