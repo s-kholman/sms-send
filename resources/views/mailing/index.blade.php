@@ -44,7 +44,11 @@
                             <input class="form-control" type="time" name="mailing_send_birth">
                         </div>
                         <div class="col-1">
-                            <input class="form-control @error('mailing_to_day') is-invalid @enderror" name="mailing_to_day" value="{{old('mailing_to_day')}}">
+                            <input class="form-control @error('mailing_to_day') is-invalid @enderror"
+                                   type="number"
+                                   step="1"
+                                   name="mailing_to_day"
+                                   value="{{old('mailing_to_day')}}">
                             @error('mailing_to_day')
                             <span class="invalid-feedback">
                             <strong>{{ $message }}</strong>
