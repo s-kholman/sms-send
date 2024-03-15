@@ -27,13 +27,12 @@ Route::get('/', function (){
 })->name('home')->middleware('auth');
 
 Route::get('clients', [ClientController::class, 'index'])->middleware('auth')->name('clients.index');
-Route::post('test', [ClientController::class, 'test'])->middleware('auth')->name('test');
 Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');
 Route::get('upload',[ClientController::class, 'index']);
 
 Route::get('mailing', [MailingController::class, 'index'])->name('mailing.index')->middleware('auth');
 Route::post('store', [MailingController::class, 'store'])->middleware('auth')->name('mailing.store');
-Route::post('send', [MailingController::class, 'send'])->middleware('auth')->name('mailing.send');
+//Route::post('send', [MailingController::class, 'send'])->middleware('auth')->name('mailing.send');
 
 Route::get('report', [ReportController::class, 'index'])->middleware('auth');
 Route::post('find', [ReportController::class, 'find'])->middleware('auth')->name('report.find');

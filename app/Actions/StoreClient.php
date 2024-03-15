@@ -3,16 +3,17 @@
 namespace App\Actions;
 
 use App\Models\Client;
-use Illuminate\Support\Facades\Auth;
+
 
 class StoreClient
 {
-    public function __invoke(array $data): void
+    public function __invoke(array $data, int $user_id): void
     {
+
         Client::query()->updateOrCreate(
             [
                 'phone' => $data['phone'],
-                'user_id' => Auth::user()->id,
+                'user_id' => $user_id,
             ],
             [
                 'clientFullName' => $data['clientFullName'],

@@ -11,9 +11,13 @@ class Mailing extends Model
     protected $fillable = [
         'mailing_name',
         'mailing_text',
-        'mailing_send_time',
-        'mailing_frequency',
+        'mailing_send_birth',
+        'mailing_immediate_dispatch',
+        'mailing_deferred',
+        'mailing_frequency_date',
+        'mailing_frequency_type',
+        'mailing_type',
         'mailing_to_day',
-        'user_id',
+        'user_id'
     ];
 }

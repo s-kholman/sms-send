@@ -20,12 +20,11 @@
                     </div>
                 </form>
             </div>
-            <form action="{{route('test')}}" method="post">
-                @csrf
-                <div class="mb-3">
-                    <input class="btn btn-info" type="submit" name="test" value="Tets send sms">
-                </div>
-            </form>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">
+                Загрузка файла производится частями в фоновом режиме. Полная загрузка зависит от размера файла.
+            </div>
         </div>
     </div>
 @endsection

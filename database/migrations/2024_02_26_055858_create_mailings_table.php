@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('mailing_name',255);
             $table->string('mailing_text',255);
-            $table->time('mailing_send_time');
-            $table->integer('mailing_frequency');
+            $table->time('mailing_send_birth')->nullable()->default(null); //Рассылка день рождения
+            $table->dateTime('mailing_immediate_dispatch')->nullable()->default(null); //Немедленная отправка
+            $table->dateTime('mailing_deferred')->nullable()->default(null); //Отправка в определенную дату
+            $table->dateTime('mailing_frequency_date')->nullable()->default(null); //Дата переодичных рассылок
+            $table->integer('mailing_frequency_type')->nullable()->default(null); //Повтор переодичных рассылок
+            $table->integer('mailing_type');
             $table->integer('mailing_to_day');
             $table->foreignId('user_id');
             $table->timestamps();

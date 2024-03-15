@@ -2,7 +2,10 @@
 
 namespace App\Actions;
 
+use App\Jobs\GetSmsStatus;
 use App\Models\SmsStatusSend;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 
 class StoreSmsStatus
 {
@@ -24,6 +27,10 @@ class StoreSmsStatus
                 ]);
         }
 
+        RateLimiter::attempt('get_status_sms', 1, function () use ($array) {
+            dispatch(new GetSmsStatus($array['date'], $array['user_id']))->delay(now()->addSeconds(10));
+            return null;
+        }, 25);
 
     }
 

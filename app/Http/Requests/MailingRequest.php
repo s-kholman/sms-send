@@ -24,9 +24,23 @@ class MailingRequest extends FormRequest
         return [
             'mailing_name' => 'required|max:255',
             'mailing_text' => 'required|max:255',
-            'mailing_frequency' => 'required|numeric',
-            'mailing_send_time' => 'date_format:H:i',
+            'mailing_type' => 'required|numeric',
+            'mailing_send_birth' => 'nullable|date_format:H:i',//Рассылка день рождения
+            'mailing_immediate_dispatch' => 'nullable|date',//Немедленная отправка
+            'mailing_deferred' => 'nullable|date',//Отправка в определенную дату
+            'mailing_frequency_date' => 'nullable|date',//Дата переодичных рассылок
+            'mailing_frequency_type' => 'nullable|numeric',//Повтор переодичных рассылок
             'mailing_to_day' => 'required|numeric',
         ];
     }
+
+    public function messages()
+    {
+        return
+            [
+                'required' => 'Поле обязательно для заполнение',
+                'max' => 'Значение не должно быть длинне :max символов'
+            ];
+    }
 }
+

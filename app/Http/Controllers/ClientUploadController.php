@@ -2,38 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\StoreClient;
-use App\Actions\ValidateClient;
 use App\Http\Requests\FileMIMERequest;
+use App\Jobs\ClientLoadJob;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientUploadController extends Controller
 {
-    public function upload(FileMIMERequest $request, ValidateClient $validateClient, StoreClient $storeClient)
+    public function upload(Request $request)
     {
 
         if ($request->hasFile('clients')){
-
-            $file = fopen($request->file('clients'), 'r');
-
-            for($i = 0; $data = fgetcsv($file, 1_000, ';'); $i++){
-//dd($data);
-                if (count($data) >= 3){
-                    $validate = $validateClient(
-                        [
-                            'phone' => $data[0],
-                            'birth' => $data[2],
-                            //'clientFullName' => iconv("OEM866", "UTF-8", $data[1])
-                            'clientFullName' => $data[1]
-                        ]);
-                    if($validate <> false){
-                        $storeClient($validate);
-                    }
+                $csv    = file($request->file('clients'));;
+                $chunks = array_chunk($csv,1000);
+                foreach ($chunks as $chunk) {
+                   ClientLoadJob::dispatch($chunk, Auth::user()->id)->delay(now()->addSeconds(2));
                 }
-            }
-            fclose($file);
         }
-
-
-        return redirect()->route('clients.index');
+       return redirect()->route('clients.index');
     }
 }

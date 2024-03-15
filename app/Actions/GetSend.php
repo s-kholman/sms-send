@@ -36,7 +36,7 @@ class GetSend
          * Получаем все задания на рассылку, где сходится время
          */
         return collect(Mailing::query()
-            ->where('mailing_send_time', now()->format('H:i'.':00'))
+            ->where('mailing_send_birth', now()->format('H:i'.':00'))
             ->get());
     }
 
