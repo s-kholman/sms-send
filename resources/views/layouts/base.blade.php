@@ -63,6 +63,11 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link align-middle px-0" href="/analytical" class="nav-link px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Аналитика</span></a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link align-middle px-0" href="/smsc" class="nav-link px-0">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Интеграция с SMSC</span></a>
                     </li>

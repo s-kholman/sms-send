@@ -64,6 +64,11 @@
                     </div>
 
                 @empty
+                <div class="row m-4">
+                    <div class="col-12 text-center">
+                        Записей не найдено
+                    </div>
+                </div>
                 @endforelse
             <div class="row m-4">
                 <div class="col-12 text-center">

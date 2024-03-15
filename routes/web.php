@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticalController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientUploadController;
 use App\Http\Controllers\MailingController;
@@ -39,3 +40,5 @@ Route::post('find', [ReportController::class, 'find'])->middleware('auth')->name
 
 Route::get('smsc', [SmscIntegrationController::class, 'index'])->middleware('auth')->name('smsc.index');
 Route::post('smsc/store', [SmscIntegrationController::class, 'store'])->name('smsc.store')->middleware('auth');
+
+Route::get('analytical', [AnalyticalController::class, 'index'])->middleware('auth');
