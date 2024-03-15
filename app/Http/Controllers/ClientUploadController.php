@@ -14,8 +14,14 @@ class ClientUploadController extends Controller
     {
 
         if ($request->hasFile('clients')){
-                $csv    = file($request->file('clients'));;
-                $chunks = array_chunk($csv,1000);
+                $csv    = file($request->file('clients'));
+
+            foreach ($csv as $value){
+                $utf8 [] = mb_convert_encoding($value, 'utf8', 'CP866');
+            }
+
+                $chunks = array_chunk($utf8,1000);
+
                 foreach ($chunks as $chunk) {
                    ClientLoadJob::dispatch($chunk, Auth::user()->id)->delay(now()->addSeconds(2));
                 }

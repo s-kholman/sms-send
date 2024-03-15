@@ -34,14 +34,14 @@ class ClientLoadJob implements ShouldQueue
     {
         foreach ($this->chunk as $clients){
 
-            $client = explode(',', $clients);
+            $client = explode(';', $clients);
 
                 if (count($client) >= 3){
                     $validate = $validateClient(
                         [
                             'phone' => $client[0],
                             'birth' => $client[2],
-                            //'clientFullName' => iconv("OEM866", "UTF-8", $data[1])
+                            //'clientFullName' => utf8_encode("UTF-8", $client[1])
                             'clientFullName' => $client[1]
                         ]);
 
