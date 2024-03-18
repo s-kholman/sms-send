@@ -13,6 +13,20 @@
                 <form action="{{route('clients.upload')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
+                        <label for="department">Выберите отдел/подразделение</label>
+                        <select name="department" id="department" class="form-select @error('department') is-invalid @enderror">
+                            @forelse($departments as $department)
+                                @if($loop->first)
+                                    <option selected value="{{ $department->id }}"> {{ $department->name }}  </option>
+                                @else
+                                    <option selected value="{{ $department->id }}"> {{ $department->name }}  </option>
+                                @endif
+                            @empty
+                                <option value="">Значение не найдены</option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <input class="form-control" type="file" name="clients">
                     </div>
                     <div class="mb-3">

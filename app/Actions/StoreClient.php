@@ -7,9 +7,9 @@ use App\Models\Client;
 
 class StoreClient
 {
-    public function __invoke(array $data, int $user_id): void
+    public function __invoke(array $data, int $user_id, int $department_id): void
     {
-
+//dd($department_id);
         Client::query()->updateOrCreate(
             [
                 'phone' => $data['phone'],
@@ -18,6 +18,7 @@ class StoreClient
             [
                 'clientFullName' => $data['clientFullName'],
                 'birth' => $data['birth'],
+                'department_id' => $department_id
             ]
         );
     }

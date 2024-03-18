@@ -17,14 +17,18 @@ class ClientLoadJob implements ShouldQueue
 
     private $chunk;
     private $user_id;
+    private $csvControl;
+    private $department_id;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(array $chunk, int $user_id)
+    public function __construct(array $chunk, int $user_id, $csvControl, $department_id)
     {
         $this->chunk = $chunk;
         $this->user_id= $user_id;
+        $this->csvControl = $csvControl;
+        $this->department_id = $department_id;
     }
 
     /**
@@ -34,9 +38,10 @@ class ClientLoadJob implements ShouldQueue
     {
         foreach ($this->chunk as $clients){
 
-            $client = explode(';', $clients);
+            $client = explode($this->csvControl, $clients);
 
                 if (count($client) >= 3){
+
                     $validate = $validateClient(
                         [
                             'phone' => $client[0],
@@ -44,9 +49,8 @@ class ClientLoadJob implements ShouldQueue
                             //'clientFullName' => utf8_encode("UTF-8", $client[1])
                             'clientFullName' => $client[1]
                         ]);
-
                     if($validate <> false){
-                        $storeClient($validate, $this->user_id);
+                        $storeClient($validate, $this->user_id, $this->department_id);
                     }
                 }
             }

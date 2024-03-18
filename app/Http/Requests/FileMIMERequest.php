@@ -22,7 +22,8 @@ class FileMIMERequest extends FormRequest
     public function rules(): array
     {
         return [
-            'clients' => 'mimes:txt'
+            'clients' => 'mimes:txt',
+            'department' => 'required|numeric',
         ];
     }
 }

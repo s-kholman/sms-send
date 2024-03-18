@@ -10,22 +10,33 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientUploadController extends Controller
 {
-    public function upload(Request $request)
+    public function upload(FileMIMERequest $request)
     {
 
-        if ($request->hasFile('clients')){
-                $csv    = file($request->file('clients'));
+        if ($request->hasFile('clients')) {
 
-            foreach ($csv as $value){
+            /*$file = new \SplFileObject($request->file('clients'));
+
+            $getCsvControl = $file->getCsvControl();
+            if (is_array($getCsvControl) && key_exists(0, $getCsvControl)) {
+                $csvControl = $getCsvControl[0];
+                dd($getCsvControl);
+            } else {
+                $csvControl = ';';
+            }*/
+
+            $csv = file($request->file('clients'));
+
+            foreach ($csv as $value) {
                 $utf8 [] = mb_convert_encoding($value, 'utf8', 'CP866');
             }
 
-                $chunks = array_chunk($utf8,1000);
+            $chunks = array_chunk($utf8, 1000);
 
-                foreach ($chunks as $chunk) {
-                   ClientLoadJob::dispatch($chunk, Auth::user()->id)->delay(now()->addSeconds(2));
-                }
+            foreach ($chunks as $chunk) {
+                ClientLoadJob::dispatch($chunk, Auth::user()->id, ';', $request->department)->delay(now()->addSeconds(2));
+            }
         }
-       return redirect()->route('clients.index');
+        return redirect()->route('clients.index');
     }
 }

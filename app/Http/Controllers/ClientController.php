@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ScheduleSms;
 use App\Models\Client;
-use Illuminate\Http\Request;
+use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
@@ -13,9 +12,8 @@ class ClientController extends Controller
     {
         $clients = Client::query()->where('user_id', Auth::user()->id)->paginate(50);
 
+        $departments = Department::query()->where('user_id', Auth::user()->id)->get();
 
-
-
-        return view('client.index', ['clients' => $clients]);
+        return view('client.index', ['clients' => $clients, 'departments' => $departments]);
     }
 }
