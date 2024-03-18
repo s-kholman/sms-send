@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -49,11 +50,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['email'] = Str::lower($data['email']);
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ],
+            [
+                'unique' => 'Email уже зарегистрирован'
+            ]);
     }
 
     /**
@@ -66,7 +71,7 @@ class RegisterController extends Controller
     {
         $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => Str::lower($data['email']),
             'password' => Hash::make($data['password']),
         ]);
 
