@@ -29,8 +29,8 @@ Route::get('/', function (){
 })->name('home')->middleware('auth');
 
 Route::get('clients', [ClientController::class, 'index'])->middleware('auth')->name('clients.index');
-Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');
-//Route::post('upload',[ExcelController::class, 'upload'])->name('clients.upload')->middleware('auth');
+//Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');
+Route::post('upload',[ExcelController::class, 'upload'])->name('clients.upload')->middleware('auth');
 Route::get('upload',[ClientController::class, 'index']);
 
 Route::get('mailing', [MailingController::class, 'index'])->name('mailing.index')->middleware('auth');

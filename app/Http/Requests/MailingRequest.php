@@ -30,7 +30,7 @@ class MailingRequest extends FormRequest
             'mailing_deferred' => 'nullable|date',//Отправка в определенную дату
             'mailing_frequency_date' => 'nullable|date',//Дата переодичных рассылок
             'mailing_frequency_type' => 'nullable|numeric',//Повтор переодичных рассылок
-            'mailing_to_day' => 'required|numeric|min:0|max:364',
+            'mailing_to_day' => 'exclude_if:mailing_type,2|numeric|min:0|max:364',
         ];
     }
 

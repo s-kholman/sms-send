@@ -40,15 +40,18 @@
                                    checked>
                             <label class="form-label" for="mailing_type">День рождение</label>
                         </div>
-                        <div class="col-3">
-                            <input class="form-control" type="time" name="mailing_send_birth">
+                        <div class="col-2">
+                            <label class="form-label" for="mailing_send_birth">Время отправки</label>
+                            <input class="form-control" type="time" id="mailing_send_birth" name="mailing_send_birth">
                         </div>
-                        <div class="col-1">
+                        <div class="col-3">
+                            <label class="form-label" for="mailing_to_day">За сколлько дней до ДР</label>
                             <input class="form-control @error('mailing_to_day') is-invalid @enderror"
                                    type="number"
                                    step="1"
                                    name="mailing_to_day"
-                                   value="{{old('mailing_to_day')}}">
+                                   id="mailing_to_day"
+                                   value="{{old('mailing_to_day') ?? 0}}">
                             @error('mailing_to_day')
                             <span class="invalid-feedback">
                             <strong>{{ $message }}</strong>

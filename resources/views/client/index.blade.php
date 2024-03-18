@@ -28,7 +28,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="department">Выберите файл для загрузки</label>
-                        <input class="form-control" type="file" name="clients">
+                        <input class="form-control @error('clients') is-invalid @enderror"
+                               type="file"
+                               name="clients"
+                               accept=' .csv , .xls , .xlsx'
+                        >
+                        @error('clients')
+                        <span class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <input class="btn btn-info" type="submit" name="upload" value="Загрузить список клиентов">
@@ -36,6 +45,13 @@
                 </form>
             </div>
         </div>
+        @if($error <> '')
+        <div class="row m-4">
+            <div class="col-12 text-center text-danger">
+                {{$error}}
+            </div>
+        </div>
+        @endif
         <div class="row m-4">
             <div class="col-12 text-center">
                 Загрузка файла производится частями в фоновом режиме. Полная загрузка зависит от размера файла.

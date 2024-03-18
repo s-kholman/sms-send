@@ -22,8 +22,18 @@ class FileMIMERequest extends FormRequest
     public function rules(): array
     {
         return [
-            'clients' => 'mimes:txt',
+            'clients' => 'required|mimes:csv,xls,xlsx|max:2048',
             'department' => 'required|numeric',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'clients.required' => 'Выберите файл',
+            'department.required' => 'Выберите значение или внесите новое',
+            'max' => 'Размер файла не должен превышать :max Кб',
+            'mimes' => 'Не допустимый тип файла или кодировка',
         ];
     }
 }
