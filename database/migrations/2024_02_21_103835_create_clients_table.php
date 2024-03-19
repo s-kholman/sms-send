@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('clientFullName',255)->nullable()->default(null);
             $table->string('phone', 20);
             $table->date('birth')->nullable()->default(null);
-            $table->foreignId('user_id');
-            $table->foreignId('department_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('department_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

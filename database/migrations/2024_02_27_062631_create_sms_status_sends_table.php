@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('sms_send_id');
             $table->string('phone_send');
             $table->date('date');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->string('sms_status_code')->nullable()->default(null);
             $table->timestamps();
         });

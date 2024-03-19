@@ -15,4 +15,5 @@ class SmscIntegration extends Model
             'password',
             'user_id',
         ];
+
 }

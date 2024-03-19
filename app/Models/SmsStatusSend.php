@@ -16,4 +16,14 @@ class SmsStatusSend extends Model
         'user_id',
         'sms_status_code',
     ];
+
+    public function smscIntegration()
+    {
+        return $this->hasOne(SmscIntegration::class, 'user_id', 'user_id');
+    }
+
+    public function Mailing()
+    {
+        return$this->belongsTo(Mailing::class);
+    }
 }

@@ -26,12 +26,6 @@ class StoreSmsStatus
                     'user_id' => $array['user_id'],
                 ]);
         }
-
-        RateLimiter::attempt('get_status_sms', 1, function () use ($array) {
-            dispatch(new GetSmsStatus($array['date'], $array['user_id']))->delay(now()->addSeconds(10));
-            return null;
-        }, 25);
-
     }
 
 }

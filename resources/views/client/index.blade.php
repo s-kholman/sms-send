@@ -10,6 +10,9 @@
         </div>
         <div class="row">
             <div class="col-md-4">
+                <div class="mb-3">
+                    <a href="/department">Добавить отдел/подразделение</a>
+                </div>
                 <form action="{{route('clients.upload')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
@@ -19,13 +22,14 @@
                                 @if($loop->first)
                                     <option selected value="{{ $department->id }}"> {{ $department->name }}  </option>
                                 @else
-                                    <option selected value="{{ $department->id }}"> {{ $department->name }}  </option>
+                                    <option value="{{ $department->id }}"> {{ $department->name }}  </option>
                                 @endif
                             @empty
                                 <option value="">Значение не найдены</option>
                             @endforelse
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="department">Выберите файл для загрузки</label>
                         <input class="form-control @error('clients') is-invalid @enderror"

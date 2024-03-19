@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Actions\ScheduleSms;
+use App\Actions\SmsGetStatusSchedule;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +17,8 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->call(new ScheduleSms())->everyMinute();
+
+        $schedule->call(new SmsGetStatusSchedule())->everyMinute();
 
     }
 

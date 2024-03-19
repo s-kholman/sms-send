@@ -4,11 +4,11 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <form action="{{route('report.find')}}" method="post">
+                <form action="{{route('report.index')}}" method="post">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label" for="date">Выберите дату</label>
-                        <input class="form-control" type="date" name="date" id="date" value="{{date('Y-m-d')}}">
+                        <input class="form-control" type="date" name="date" id="date" value="{{\Carbon\Carbon::parse($date)->format('Y-m-d')}}">
                     </div>
 
                     <div class="mb-3">

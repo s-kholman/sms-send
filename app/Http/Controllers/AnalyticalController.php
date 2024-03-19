@@ -3,27 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\GetSmsStatus;
+use App\Models\Mailing;
 use App\Models\SmsStatusSend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 
 class AnalyticalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if (!empty($request->between)) {
+            $between = $request->between;
+        } else {
+            $between = Carbon::now()->subDays(1)->format('Y-m-d');
+        }
 
 
-        RateLimiter::attempt('get_status_sms', 1, function () {
-            dispatch(new GetSmsStatus(now(), Auth::user()->id));
-            return null;
-        }, 25);
+        $maililngs = SmsStatusSend::query()
+            ->where('user_id', Auth::user()->id)
+            ->whereBetween('date', [$between, Carbon::now()->format('Y-m-d')])
+            ->with('Mailing')
+            ->get()
+        ;
 
-        $maililngs = SmsStatusSend::query()->where('user_id', Auth::user()->id)->get();
+        if ($maililngs->isNotEmpty()) {
 
-        if ($maililngs->isNotEmpty()){
-
-            foreach ($maililngs->groupBy('mailing_id')  as $key => $mailing){
+            foreach ($maililngs->groupBy('Mailing.id') as $key => $mailing) {
 
                 $sms_status_code = $mailing->groupBy('sms_status_code')->toArray();
 
@@ -35,7 +42,7 @@ class AnalyticalController extends Controller
                     $report [$key] = ['all' => $mailing->count(), 'yes' => 0];
                 }
             }
-        } else{
+        } else {
             return view('analytical.index', ['mailing' => []]);
         }
 

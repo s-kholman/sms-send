@@ -21,8 +21,8 @@ return new class extends Migration
             $table->dateTime('mailing_frequency_date')->nullable()->default(null); //Дата переодичных рассылок
             $table->integer('mailing_frequency_type')->nullable()->default(null); //Повтор переодичных рассылок
             $table->integer('mailing_type');
-            $table->integer('mailing_to_day');
-            $table->foreignId('user_id');
+            $table->integer('mailing_to_day')->nullable()->default(null); //Срабатывание до ДР
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->timestamps();
         });
     }

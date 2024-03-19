@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Api\SMS\SmsGetStatus;
 use App\Jobs\GetSmsStatus;
 use App\Models\SmsStatusSend;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,29 +21,16 @@ class ReportController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('report.index', ['result' => 0, 'sum' => 0, 'post' => 0]);
-    }
-
-    public function find(Request $request)
-    {
-
-        /**
-         * Делаем запрос на статус СМС с сайта
-         * Размещаем его в очереди
-         * Лимитируем 1 запрос на сайт не чаще 25 секунд (на сайте не более 3х запросов в минуту)
-         * Пользователь по факту получает данные из собственной БД
-        */
-
-        RateLimiter::attempt('get_status_sms', 1, function () use ($request) {
-            dispatch(new GetSmsStatus($request->date, Auth::user()->id));
-            return null;
-        }, 25);
-
+        if(empty($request->date)){
+            $date = Carbon::now();
+        } else {
+            $date = $request->date;
+        }
 
         $mailing = SmsStatusSend::query()
-            ->whereDate('date', $request->date)
+            ->whereDate('date', $date)
             ->where('user_id', Auth::user()->id)
             ->get();
 
@@ -60,11 +48,10 @@ class ReportController extends Controller
                 }
             }
         } else {
-            return view('report.index', ['result' => [], 'post' => 0]);
+            return view('report.index', ['result' => [], 'post' => 0, 'date' => $date]);
         }
 
-        return view('report.index', ['result' => $report, 'post' => 1]);
-
+        return view('report.index', ['result' => $report, 'post' => 1, 'date' => $date]);
     }
 }
 
