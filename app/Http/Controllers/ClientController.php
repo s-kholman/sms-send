@@ -15,7 +15,7 @@ class ClientController extends Controller
 
         $clients = Client::query()->where('user_id', Auth::user()->id)->paginate(50);
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
-        return view('client.index', ['clients' => $clients, 'count' => $count]);
+        return view('client.index', ['clients' => $clients, 'count' => $count, 'search' =>'']);
     }
 
     public function sort(Request $request){
@@ -27,7 +27,7 @@ class ClientController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('client.index', ['clients' => $clients, 'count' => $count]);
+        return view('client.index', ['clients' => $clients, 'count' => $count, 'search' =>'']);
     }
 
     public function phone(){
@@ -39,7 +39,7 @@ class ClientController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('client.index', ['clients' => $clients, 'count' => $count]);
+        return view('client.index', ['clients' => $clients, 'count' => $count, 'search' =>'']);
     }
 
     public function clientFullName(){
@@ -51,7 +51,7 @@ class ClientController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('client.index', ['clients' => $clients, 'count' => $count]);
+        return view('client.index', ['clients' => $clients, 'count' => $count, 'search' =>'']);
     }
 
     public function birth(){
@@ -63,7 +63,7 @@ class ClientController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('client.index', ['clients' => $clients, 'count' => $count]);
+        return view('client.index', ['clients' => $clients, 'count' => $count, 'search' =>'']);
     }
 
     public function createdAt(){
@@ -75,7 +75,7 @@ class ClientController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('client.index', ['clients' => $clients, 'count' => $count]);
+        return view('client.index', ['clients' => $clients, 'count' => $count, 'search' =>'']);
     }
 
     public function load(){
@@ -85,23 +85,17 @@ class ClientController extends Controller
     }
 
     public function search(ClientSearchRequest $request){
-        //dd($request->page);
-        if($request->page == null)
-        {
-            $str = implode("* ", explode(" ", $request->search))."* ";
-        } else {
-            $str = 'Виктор';
-        }
 
+
+        $str = implode("* ", explode(" ", $request->search))."* ";
 
 
         $clients = Client::query()
             ->where('user_id', Auth::user()->id)
             ->whereRaw(
                 "MATCH(clientFullName,phone,email) AGAINST(? IN BOOLEAN MODE)",
-                array([$request->search]))
-            //->paginate(50,['*'], 'page', $request->page);
-            ->paginate(50);
+                array([$str]))
+            ->paginate(50,['*'], 'page', $request->page);
 
 
         $count = Client::query()
@@ -110,6 +104,7 @@ class ClientController extends Controller
                 "MATCH(clientFullName,phone,email) AGAINST(? IN BOOLEAN MODE)",
                 array([$str]))
             ->count();
+
 
         $search = $request->search;
 

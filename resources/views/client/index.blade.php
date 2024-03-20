@@ -4,7 +4,7 @@
 
     <div class="container">
 
-        <form class="d-flex mb-4" action="{{route('clients.search')}}" method="post">
+        <form class="d-flex mb-4" action="{{route('clients.search')}}" method="get">
             @csrf
             <input class="form-control me-2 @error('search') is-invalid @enderror"
                    name="search"
@@ -88,7 +88,7 @@
                 @endforelse
             <div class="row m-4">
                 <div class="col-12 text-center">
-                    {{$clients->links()}}
+                    {{$clients->appends(['search' => $search])->links()}}
                 </div>
             </div>
 

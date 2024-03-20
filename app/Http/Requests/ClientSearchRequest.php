@@ -22,7 +22,7 @@ class ClientSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'nullable|max:100',
+            'search' => 'required|max:100',
             'page' => 'int'
         ];
     }

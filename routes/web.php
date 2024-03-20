@@ -40,7 +40,7 @@ Route::get('createdAt', [ClientController::class, 'createdAt'])->middleware('aut
 
 
 
-Route::post('search', [ClientController::class, 'search'])->middleware('auth')->name('clients.search');;
+Route::get('search', [ClientController::class, 'search'])->middleware('auth')->name('clients.search');;
 
 //Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');
 Route::post('upload',[ExcelController::class, 'upload'])->name('clients.upload')->middleware('auth');
