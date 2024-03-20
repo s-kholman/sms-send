@@ -31,6 +31,10 @@ Route::get('/', function (){
 })->name('home')->middleware('auth');
 
 Route::get('clients', [ClientController::class, 'index'])->middleware('auth')->name('clients.index');
+Route::get('/client/load', [ClientController::class, 'load'])->middleware('auth')->name('clients.load');
+Route::post('sort', [ClientController::class, 'sort'])->middleware('auth')->name('clients.sort');;
+Route::post('search', [ClientController::class, 'search'])->middleware('auth')->name('clients.search');;
+
 //Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');
 Route::post('upload',[ExcelController::class, 'upload'])->name('clients.upload')->middleware('auth');
 Route::get('upload',[ClientController::class, 'index']);

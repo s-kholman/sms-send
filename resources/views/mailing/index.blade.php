@@ -60,10 +60,29 @@
                         </div>
                     </div>
                     <div class="row g-6">
-                        <div class="form-switch form-check mb-3 ">
+                        <div class="form-switch form-check mb-7 col-3">
                             <input class="form-check-input" type="radio" id="mailing_today" name="mailing_type"
                                    value="2">
-                            <label class="form-label" for="mailing_today">Немедленная отправка, {{$count}} SMS</label>
+                            <label class="form-label" for="mailing_today">Немедленная отправкаSMS</label>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label" for="">Подразделение</label>
+                            <select class="form-select" name="department" id="department">
+                            @forelse($departments as $department)
+                                @if($loop->first)
+                                        <option value="0">Отправить все - {{$count}} SMS</option>
+                                    @endif
+                                    <option value="{{$department->id}}">{{$department->name}} - "к отправке
+                                        {{\App\Models\Client::query()
+                                                ->where('user_id', $department->user_id)
+                                                ->where('department_id', $department->id)
+                                                ->count()}}"
+                                    </option>
+                            @empty
+                            @endforelse
+
+
+                            </select>
                         </div>
                     </div>
                     <input class="btn btn-success " type="submit" value="Сохранить">

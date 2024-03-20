@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FileMIMERequest;
 use App\Imports\ClientImport;
 use App\Jobs\ClientLoadJob;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -27,6 +26,7 @@ class ExcelController extends Controller
             if ($mimeType <> 'text/plain') {
 
                 foreach ($collection as $value) {
+
                     foreach ($value as $item) {
 
                         if (key_exists(2, $item->toArray()) && $item[2] <> '' && $mimeType <> 'text/csv' && $mimeType <> 'text/plain') {
@@ -40,10 +40,11 @@ class ExcelController extends Controller
                         }
 
                         $data [] = $item[0] . ';' . $item[1] . ';' . $parse;
+
                     }
                 }
 
-                $chunks = array_chunk($data, 1000);
+                $chunks = array_chunk($data, 500);
 
                 foreach ($chunks as $chunk) {
                     ClientLoadJob::dispatch($chunk, Auth::user()->id, ';', $request->department)->delay(now()->addSeconds(2));

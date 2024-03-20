@@ -28,6 +28,15 @@ class AnalyticalController extends Controller
             ->get()
         ;
 
+        $mailing = Mailing::query()
+            ->where('user_id', Auth::user()->id)
+            ->get()
+            ;
+
+        //dd($mailing);
+
+
+
         if ($maililngs->isNotEmpty()) {
 
             foreach ($maililngs->groupBy('Mailing.id') as $key => $mailing) {

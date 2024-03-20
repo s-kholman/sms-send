@@ -3,62 +3,24 @@
 @section('content')
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 text-center">
-                Список клиентов
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <a href="/department">Добавить отдел/подразделение</a>
-                </div>
-                <form action="{{route('clients.upload')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="department">Выберите отдел/подразделение</label>
-                        <select name="department" id="department" class="form-select @error('department') is-invalid @enderror">
-                            @forelse($departments as $department)
-                                @if($loop->first)
-                                    <option selected value="{{ $department->id }}"> {{ $department->name }}  </option>
-                                @else
-                                    <option value="{{ $department->id }}"> {{ $department->name }}  </option>
-                                @endif
-                            @empty
-                                <option value="">Значение не найдены</option>
-                            @endforelse
-                        </select>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="department">Выберите файл для загрузки</label>
-                        <input class="form-control @error('clients') is-invalid @enderror"
-                               type="file"
-                               name="clients"
-                               accept=' .csv , .xls , .xlsx'
-                        >
-                        @error('clients')
-                        <span class="invalid-feedback">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <input class="btn btn-info" type="submit" name="upload" value="Загрузить список клиентов">
-                    </div>
-                </form>
-            </div>
-        </div>
-        @if($error <> '')
-        <div class="row m-4">
-            <div class="col-12 text-center text-danger">
-                {{$error}}
-            </div>
-        </div>
-        @endif
-        <div class="row m-4">
-            <div class="col-12 text-center">
-                Загрузка файла производится частями в фоновом режиме. Полная загрузка зависит от размера файла.
+        <form class="d-flex mb-4" action="{{route('clients.search')}}" method="post">
+            @csrf
+            <input class="form-control me-2 @error('search') is-invalid @enderror"
+                   name="search"
+                   type="search"
+                   placeholder="Поиск"
+                   aria-label="Найти"
+                   value="@if(!empty($search)){{$search}}@endif"
+            >
+
+            <button class="btn btn-outline-success" type="submit">Найти</button>
+
+        </form>
+
+        <div class="row  mb-4">
+            <div class="col-md-12 ">
+                Клиентов: {{$count}} <a href="/client/load" class="btn btn-success">Добавить</a>
             </div>
         </div>
 
@@ -68,16 +30,35 @@
                 @if($loop->first)
                     <div class="row">
                         <div class="col-2 text-center border border-1">
-                            Телефон
+                            <form action="{{route('clients.sort')}}" method="post">
+                                @csrf
+                                <input hidden name="sort" value="phone">
+                                <input class="btn btn-link" type="submit" value="Телефон">
+                            </form>
+
                         </div>
                         <div class="col-3 text-center border border-1">
-                            ФИО
+                            <form action="{{route('clients.sort')}}" method="post">
+                                @csrf
+                                <input hidden name="sort" value="clientFullName">
+                                <input class="btn btn-link" type="submit" value="ФИО">
+                            </form>
                         </div>
                         <div class="col-2 text-center border border-1">
-                            Дата рождения
+                            <form action="{{route('clients.sort')}}" method="post">
+                                @csrf
+                                <input hidden name="sort" value="birth">
+                                <input class="btn btn-link" type="submit" value="Дата рождения">
+                            </form>
+
                         </div>
-                        <div class="col-2 text-center border border-1">
-                            Дата появления гостя в БД
+                        <div class="col-3 text-center border border-1">
+                            <form action="{{route('clients.sort')}}" method="post">
+                                @csrf
+                                <input hidden name="sort" value="created_at">
+                                <input class="btn btn-link" type="submit" value="Дата добавления">
+                            </form>
+
                         </div>
                     </div>
                 @endif
@@ -93,7 +74,7 @@
                                 {{\Illuminate\Support\Carbon::parse($client->birth)->format('d.m.Y')}}
                             @endif
                         </div>
-                        <div class="col-2 text-center border border-1">
+                        <div class="col-3 text-center border border-1">
                             {{\Illuminate\Support\Carbon::parse($client->created_at)->format('d.m.Y')}}
                         </div>
                     </div>

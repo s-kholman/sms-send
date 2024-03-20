@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\GetSend;
 use App\Actions\ImmediateDispatch;
-use App\Actions\StoreSmsStatus;
 use App\Api\SMS\SendSms;
 use App\Http\Requests\MailingRequest;
 use App\Models\Client;
+use App\Models\Department;
 use App\Models\Mailing;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class MailingController extends Controller
 {
@@ -29,7 +27,11 @@ class MailingController extends Controller
 
         $count = Client::query()->where('user_id', Auth::user()->id)->count();
 
-        return view('mailing.index', ['count' => $count]);
+        $department = Department::query()
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        return view('mailing.index', ['count' => $count, 'departments' => $department]);
     }
 
     public function store(MailingRequest $request, ImmediateDispatch $immediateDispatch){
