@@ -33,6 +33,13 @@ Route::get('/', function (){
 Route::get('clients', [ClientController::class, 'index'])->middleware('auth')->name('clients.index');
 Route::get('/client/load', [ClientController::class, 'load'])->middleware('auth')->name('clients.load');
 Route::post('sort', [ClientController::class, 'sort'])->middleware('auth')->name('clients.sort');;
+Route::get('phone', [ClientController::class, 'phone'])->middleware('auth')->name('clients.sort.phone');;
+Route::get('clientFullName', [ClientController::class, 'clientFullName'])->middleware('auth')->name('clients.sort.clientFullName');;
+Route::get('birth', [ClientController::class, 'birth'])->middleware('auth')->name('clients.sort.birth');;
+Route::get('createdAt', [ClientController::class, 'createdAt'])->middleware('auth')->name('clients.sort.createdAt');;
+
+
+
 Route::post('search', [ClientController::class, 'search'])->middleware('auth')->name('clients.search');;
 
 //Route::post('upload',[ClientUploadController::class, 'upload'])->name('clients.upload')->middleware('auth');

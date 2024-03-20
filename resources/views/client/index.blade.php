@@ -30,7 +30,7 @@
                 @if($loop->first)
                     <div class="row">
                         <div class="col-2 text-center border border-1">
-                            <form action="{{route('clients.sort')}}" method="post">
+                            <form action="{{route('clients.sort.phone')}}" method="get">
                                 @csrf
                                 <input hidden name="sort" value="phone">
                                 <input class="btn btn-link" type="submit" value="Телефон">
@@ -38,14 +38,14 @@
 
                         </div>
                         <div class="col-3 text-center border border-1">
-                            <form action="{{route('clients.sort')}}" method="post">
+                            <form action="{{route('clients.sort.clientFullName')}}" method="get">
                                 @csrf
                                 <input hidden name="sort" value="clientFullName">
                                 <input class="btn btn-link" type="submit" value="ФИО">
                             </form>
                         </div>
                         <div class="col-2 text-center border border-1">
-                            <form action="{{route('clients.sort')}}" method="post">
+                            <form action="{{route('clients.sort.birth')}}" method="get">
                                 @csrf
                                 <input hidden name="sort" value="birth">
                                 <input class="btn btn-link" type="submit" value="Дата рождения">
@@ -53,7 +53,7 @@
 
                         </div>
                         <div class="col-3 text-center border border-1">
-                            <form action="{{route('clients.sort')}}" method="post">
+                            <form action="{{route('clients.sort.createdAt')}}" method="get">
                                 @csrf
                                 <input hidden name="sort" value="created_at">
                                 <input class="btn btn-link" type="submit" value="Дата добавления">

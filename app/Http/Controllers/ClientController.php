@@ -30,6 +30,55 @@ class ClientController extends Controller
         return view('client.index', ['clients' => $clients, 'count' => $count]);
     }
 
+    public function phone(){
+
+        $clients = Client::query()
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('phone')
+            ->paginate(50);
+
+        $count = Client::query()->where('user_id', Auth::user()->id)->count();
+
+        return view('client.index', ['clients' => $clients, 'count' => $count]);
+    }
+
+    public function clientFullName(){
+
+        $clients = Client::query()
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('clientFullName')
+            ->paginate(50);
+
+        $count = Client::query()->where('user_id', Auth::user()->id)->count();
+
+        return view('client.index', ['clients' => $clients, 'count' => $count]);
+    }
+
+    public function birth(){
+
+        $clients = Client::query()
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('birth')
+            ->paginate(50);
+
+        $count = Client::query()->where('user_id', Auth::user()->id)->count();
+
+        return view('client.index', ['clients' => $clients, 'count' => $count]);
+    }
+
+    public function createdAt(){
+
+        $clients = Client::query()
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at')
+            ->paginate(50);
+
+        $count = Client::query()->where('user_id', Auth::user()->id)->count();
+
+        return view('client.index', ['clients' => $clients, 'count' => $count]);
+    }
+
+
     public function load(){
         $error = session()->get('error');
         $departments = Department::query()->where('user_id', Auth::user()->id)->get();
