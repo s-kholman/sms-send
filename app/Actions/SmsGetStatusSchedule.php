@@ -13,6 +13,7 @@ class SmsGetStatusSchedule
         $smsStatusCheck = SmsStatusSend::query()
             ->where('sms_status_code', '=', null)
             ->orWhere('sms_status_code', '=', 0)
+            ->orWhere('sms_status_code', '=', -3)
             ->with('smscIntegration')
             ->get()
             ->groupBy('user_id');
