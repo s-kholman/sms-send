@@ -78,7 +78,6 @@ class ClientController extends Controller
         return view('client.index', ['clients' => $clients, 'count' => $count]);
     }
 
-
     public function load(){
         $error = session()->get('error');
         $departments = Department::query()->where('user_id', Auth::user()->id)->get();
@@ -86,15 +85,24 @@ class ClientController extends Controller
     }
 
     public function search(ClientSearchRequest $request){
+        //dd($request->page);
+        if($request->page == null)
+        {
+            $str = implode("* ", explode(" ", $request->search))."* ";
+        } else {
+            $str = 'Виктор';
+        }
 
-        $str = implode("* ", explode(" ", $request->search))."* ";
+
 
         $clients = Client::query()
             ->where('user_id', Auth::user()->id)
             ->whereRaw(
                 "MATCH(clientFullName,phone,email) AGAINST(? IN BOOLEAN MODE)",
-                array([$str]))
+                array([$request->search]))
+            //->paginate(50,['*'], 'page', $request->page);
             ->paginate(50);
+
 
         $count = Client::query()
             ->where('user_id', Auth::user()->id)
