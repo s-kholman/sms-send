@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientUploadController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\MailingController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SmscIntegrationController;
 use App\Http\Controllers\TestController;
@@ -52,8 +53,8 @@ Route::post('store', [MailingController::class, 'store'])->middleware('auth')->n
 Route::get('test', [TestController::class, 'index'])->middleware('auth');
 Route::post('test', [TestController::class, 'test'])->middleware('auth')->name('test');
 
-Route::get('report', [ReportController::class, 'index'])->middleware('auth');
-Route::post('report', [ReportController::class, 'index'])->middleware('auth')->name('report.index');
+//Route::get('report', [ReportController::class, 'index'])->middleware('auth');
+//Route::post('report', [ReportController::class, 'index'])->middleware('auth')->name('report.index');
 
 Route::get('smsc', [SmscIntegrationController::class, 'index'])->middleware('auth')->name('smsc.index');
 Route::post('smsc/store', [SmscIntegrationController::class, 'store'])->name('smsc.store')->middleware('auth');
@@ -63,3 +64,6 @@ Route::post('analytical', [AnalyticalController::class, 'index'])->middleware('a
 
 Route::get('department', [DepartmentController::class, 'index'])->middleware('auth');
 Route::post('department', [DepartmentController::class, 'store'])->middleware('auth')->name('department.store');
+
+Route::get('message', [MessageController::class, 'index'])->name('message.index')->middleware('auth');
+Route::post('message/store', [MessageController::class, 'store'])->middleware('auth')->name('message.store');

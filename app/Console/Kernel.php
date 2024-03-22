@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Actions\Crontab;
 use App\Actions\ScheduleSms;
+use App\Actions\SmsGetStatus;
 use App\Actions\SmsGetStatusSchedule;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -15,10 +17,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->call(new SmsGetStatus())->everyMinute();
 
-        $schedule->call(new ScheduleSms())->everyMinute();
+        //$schedule->call(new ScheduleSms())->everyMinute();
 
-        $schedule->call(new SmsGetStatusSchedule())->everyMinute();
+        $schedule->call(new Crontab())->everyMinute();
+
+        //$schedule->call(new SmsGetStatusSchedule())->everyMinute();
+
+
 
     }
 
